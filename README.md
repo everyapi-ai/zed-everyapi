@@ -7,7 +7,7 @@
 | 能力 | 实现方式 | 需要本扩展？ |
 | --- | --- | --- |
 | Agent Panel / inline assist 用 EveryAPI 模型 | `settings.json` 的 `language_models.openai_compatible`（Zed 内置） | 否 |
-| Agent 里查余额 / 用量 / 模型目录 | 本扩展（MCP context server，启动 [`@everyapi-ai/mcp`](../../packages/mcp)） | 是 |
+| Agent 里查余额 / 用量 / 模型目录 | 本扩展（MCP context server，启动 [`@everyapi-ai/mcp`](https://www.npmjs.com/package/@everyapi-ai/mcp)） | 是 |
 
 > Zed 的扩展 API 没有 LLM provider 扩展点，模型接入只能走 settings —— 这不是省事，是 Zed 的设计。
 
