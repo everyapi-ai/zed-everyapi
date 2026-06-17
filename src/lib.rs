@@ -16,10 +16,12 @@ use zed_extension_api::{
 };
 
 const PACKAGE_NAME: &str = "@everyapi-ai/mcp";
-// `bun build` bundles the server into a single file, so we launch it by path
-// through Zed's node binary instead of resolving the package's bin shim
-// (node_modules/.bin symlinks are not created reliably across npm versions).
-const SERVER_PATH: &str = "node_modules/@everyapi-ai/mcp/dist/index.js";
+// `vp pack` (tsdown) bundles the server into a single ESM file, so we launch
+// it by path through Zed's node binary instead of resolving the package's bin
+// shim (node_modules/.bin symlinks are not created reliably across npm
+// versions). Keep this filename in lockstep with packages/mcp `vp pack`
+// output — it emits dist/index.mjs (.mjs, not .js).
+const SERVER_PATH: &str = "node_modules/@everyapi-ai/mcp/dist/index.mjs";
 
 const CONTEXT_SERVER_ID: &str = "everyapi";
 
