@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "api_key": {
+      "type": "string",
+      "description": "EveryAPI key (sk-everyapi-…) from https://app.everyapi.ai → API Keys."
+    },
+    "base_url": {
+      "type": "string",
+      "description": "OpenAI-compatible gateway base URL. Defaults to https://api.everyapi.ai/v1; only change for self-hosted gateways."
+    }
+  },
+  "required": ["api_key"]
+}

@@ -1,0 +1,9 @@
+id = "everyapi"
+name = "EveryAPI"
+description = "EveryAPI gateway tools for the Agent Panel: check balance, usage and the 240+ model catalog via MCP. One key, every model."
+version = "0.1.0"
+schema_version = 1
+authors = ["EveryAPI <hello@everyapi.ai>"]
+repository = "https://github.com/everyapi-ai/everyapi-web"
+
+[context_servers.everyapi]

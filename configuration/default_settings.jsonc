@@ -1,0 +1,6 @@
+{
+  /// Your EveryAPI key from https://app.everyapi.ai → API Keys.
+  "api_key": "sk-everyapi-...",
+  /// OpenAI-compatible gateway base. Only change for self-hosted gateways.
+  "base_url": "https://api.everyapi.ai/v1"
+}
