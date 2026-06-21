@@ -28,7 +28,7 @@ const CONTEXT_SERVER_ID: &str = "everyapi";
 // Pin the MCP server version rather than tracking `@latest`: a future breaking
 // release of @everyapi-ai/mcp should not auto-propagate to installed
 // extensions. Bump this in lockstep with packages/mcp/package.json.
-const REQUIRED_MCP_VERSION: &str = "0.1.2";
+const REQUIRED_MCP_VERSION: &str = "0.1.9";
 
 const API_KEY_PLACEHOLDER: &str = "sk-everyapi-...";
 
@@ -98,6 +98,18 @@ impl zed::Extension for EveryApiExtension {
             .join(SERVER_PATH)
             .to_string_lossy()
             .to_string();
+
+        // Guard against a corrupted/partial install: npm_package_installed_version
+        // can report the pinned version while the bundle is missing (interrupted
+        // install, manually deleted dist, or a `vp pack` filename drift). Launching
+        // `node <missing-path>` would surface only an opaque MODULE_NOT_FOUND crash,
+        // so fail here with an actionable message. Covers the offline-fallback path
+        // (install failed but a prior copy exists) too, since both reach this point.
+        if !std::path::Path::new(&server_path).exists() {
+            return Err(format!(
+                "{PACKAGE_NAME}@{REQUIRED_MCP_VERSION} install looks incomplete — expected bundle missing at {server_path}; remove node_modules and restart to reinstall"
+            ));
+        }
 
         Ok(Command {
             command: zed::node_binary_path()?,
