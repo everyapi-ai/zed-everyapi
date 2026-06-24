@@ -28,7 +28,7 @@ const CONTEXT_SERVER_ID: &str = "everyapi";
 // Pin the MCP server version rather than tracking `@latest`: a future breaking
 // release of @everyapi-ai/mcp should not auto-propagate to installed
 // extensions. Bump this in lockstep with packages/mcp/package.json.
-const REQUIRED_MCP_VERSION: &str = "0.1.9";
+const REQUIRED_MCP_VERSION: &str = "0.1.13";
 
 const API_KEY_PLACEHOLDER: &str = "sk-everyapi-...";
 
