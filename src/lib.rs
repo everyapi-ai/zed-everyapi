@@ -28,15 +28,18 @@ const CONTEXT_SERVER_ID: &str = "everyapi";
 // Pin the MCP server version rather than tracking `@latest`: a future breaking
 // release of @everyapi-ai/mcp should not auto-propagate to installed
 // extensions. Bump this in lockstep with packages/mcp/package.json.
-const REQUIRED_MCP_VERSION: &str = "0.1.13";
+const REQUIRED_MCP_VERSION: &str = "0.1.16";
 
 const API_KEY_PLACEHOLDER: &str = "sk-everyapi-...";
 
 /// Accept a user-supplied key only when it's non-empty and not the
 /// default-settings placeholder, so saving the pre-filled template doesn't
-/// launch the server with a fake key.
+/// launch the server with a fake key. Trims first so a whitespace-only value
+/// (e.g. a settings field cleared to a single space) or a real key with
+/// copy-paste whitespace doesn't slip past these checks.
 fn resolve_api_key(raw: Option<&str>) -> Option<String> {
-    raw.filter(|key| !key.is_empty() && *key != API_KEY_PLACEHOLDER)
+    raw.map(str::trim)
+        .filter(|key| !key.is_empty() && *key != API_KEY_PLACEHOLDER)
         .map(str::to_string)
 }
 
@@ -146,9 +149,23 @@ mod tests {
     }
 
     #[test]
+    fn rejects_whitespace_only_keys() {
+        assert_eq!(resolve_api_key(Some(" ")), None);
+        assert_eq!(resolve_api_key(Some("\t\n")), None);
+    }
+
+    #[test]
     fn accepts_a_real_key() {
         assert_eq!(
             resolve_api_key(Some("sk-everyapi-abc123")),
+            Some("sk-everyapi-abc123".to_string())
+        );
+    }
+
+    #[test]
+    fn trims_surrounding_whitespace_from_a_real_key() {
+        assert_eq!(
+            resolve_api_key(Some(" sk-everyapi-abc123 \n")),
             Some("sk-everyapi-abc123".to_string())
         );
     }
